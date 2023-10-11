@@ -77,10 +77,13 @@ class AutoRun:
 
     @staticmethod
     def do(boy):
+
+        boy.x += boy.dir * boy.speed
+
         if boy.x < 0 or boy.x > 800 :
             boy.dir = -boy.dir
 
-        if get_time() == boy.wait_time :
+        if get_time() >= boy.wait_time :
             boy.state_machine.handle_event(('TIME_OUT', 0))
 
     @staticmethod
