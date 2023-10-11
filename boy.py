@@ -66,8 +66,11 @@ class AutoRun:
 
     @staticmethod
     def enter(boy, e):
-        
-        boy.dir = 1
+        if boy.action == 2 :
+            boy.dir, boy.action = -1, 0
+        elif boy.action == 3 :
+            boy.dir, boy.action = 1, 1
+
         boy.wait_time = get_time() + 5
 
     @staticmethod
