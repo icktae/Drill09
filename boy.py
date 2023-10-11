@@ -66,7 +66,7 @@ class AutoRun:
 
     @staticmethod
     def enter(boy, e):
-        boy.action = 1
+        
         boy.dir = 1
         boy.wait_time = get_time() + 5
 
@@ -77,7 +77,7 @@ class AutoRun:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
-        boy.x += boy.dir * 10
+        boy.x += boy.dir * 20
 
         if boy.x < 0 or boy.x > 800 :
             boy.dir = -boy.dir
@@ -92,7 +92,7 @@ class AutoRun:
 
     @staticmethod
     def draw(boy):
-        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
+        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y + 40, 200, 200)
 
 
 
@@ -116,10 +116,10 @@ class Sleep:
     def draw(boy):
         if boy.action == 2:
             boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100,
-                                          -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
+                                          -math.pi / 2, ' ', boy.x + 25, boy.y - 25, 100, 100)
         else:
             boy.image.clip_composite_draw(boy.frame * 100, 300, 100, 100,
-                                          3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
+                                          math.pi / 2, ' ', boy.x - 25, boy.y - 25, 100, 100)
 
 
 class Run:
