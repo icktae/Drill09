@@ -85,6 +85,11 @@ class AutoRun:
         if get_time() >= boy.wait_time :
             boy.state_machine.handle_event(('TIME_OUT', 0))
 
+        if boy.dir == 1 :
+            boy.action = 1
+        elif boy.dir == -1 :
+            boy.action = 0
+
     @staticmethod
     def draw(boy):
         boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
