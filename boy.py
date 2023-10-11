@@ -1,5 +1,4 @@
 from pico2d import *
-
 import math
 
 
@@ -82,7 +81,7 @@ class AutoRun:
         boy.frame = (boy.frame + 1) % 8
         boy.x += boy.dir * 20
 
-        if boy.x < 0 or boy.x > 800 :
+        if boy.x < 50 or boy.x > 750 :
             boy.dir = -boy.dir
 
         if get_time() >= boy.wait_time :
@@ -96,33 +95,6 @@ class AutoRun:
     @staticmethod
     def draw(boy):
         boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y + 40, 200, 200)
-
-
-
-
-
-class Sleep:
-
-    @staticmethod
-    def enter(boy, e):
-        boy.action = 0
-
-    @staticmethod
-    def exit(boy, e):
-        pass
-
-    @staticmethod
-    def do(boy):
-        boy.frame = (boy.frame + 1) % 8
-
-    @staticmethod
-    def draw(boy):
-        if boy.action == 2:
-            boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100,
-                                          -math.pi / 2, ' ', boy.x + 25, boy.y - 25, 100, 100)
-        else:
-            boy.image.clip_composite_draw(boy.frame * 100, 300, 100, 100,
-                                          math.pi / 2, ' ', boy.x - 25, boy.y - 25, 100, 100)
 
 
 class Run:
@@ -145,6 +117,32 @@ class Run:
     @staticmethod
     def draw(boy):
         boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
+
+
+
+class Sleep:
+
+    @staticmethod
+    def enter(boy, e):
+        boy.frame = 0
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(boy):
+        boy.frame = (boy.frame + 1) % 8
+
+    @staticmethod
+    def draw(boy):
+        if boy.action == 2:
+            boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100,
+                                          -math.pi / 2, ' ', boy.x + 25, boy.y - 25, 100, 100)
+        else:
+            boy.image.clip_composite_draw(boy.frame * 100, 300, 100, 100,
+                                          math.pi / 2, ' ', boy.x - 25, boy.y - 25, 100, 100)
+
 
 
 class StateMachine:

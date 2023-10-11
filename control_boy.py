@@ -4,7 +4,7 @@ from boy import Boy
 
 
 
-                                              
+
 def handle_events():
     global running
 
