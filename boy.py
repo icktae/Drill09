@@ -11,12 +11,13 @@ def time_out(e):
     return e[0] == 'TIME_OUT'
 
 
-def a_down(e) :
+def a_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
 
-def a_up(e) :
+def a_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_a
+
 
 def right_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
@@ -32,6 +33,32 @@ def left_down(e):
 
 def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
+
+
+class AutoRun:
+
+    @staticmethod
+    def enter(boy, e):
+        boy.action = 2
+        boy.dir = 1
+        boy.speed = 10
+        boy.wait_time = get_time() + 5
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(boy):
+        if boy.x < 0 or boy.x > 800 :
+            boy.dir = -boy.dir
+
+        if get_time() == boy.wait_time :
+            boy.state_machine.handle_event(('TIME_OUT', 0))
+
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
 
 
 class Idle:
@@ -102,7 +129,6 @@ class Run:
     def do(boy):
         boy.frame = (boy.frame + 1) % 8
         boy.x += boy.dir * 5
-
 
     @staticmethod
     def draw(boy):
