@@ -35,32 +35,6 @@ def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
 
 
-class AutoRun:
-
-    @staticmethod
-    def enter(boy, e):
-        boy.action = 2
-        boy.dir = 1
-        boy.speed = 10
-        boy.wait_time = get_time() + 5
-
-    @staticmethod
-    def exit(boy, e):
-        pass
-
-    @staticmethod
-    def do(boy):
-        if boy.x < 0 or boy.x > 800 :
-            boy.dir = -boy.dir
-
-        if get_time() == boy.wait_time :
-            boy.state_machine.handle_event(('TIME_OUT', 0))
-
-    @staticmethod
-    def draw(boy):
-        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
-
-
 class Idle:
 
     @staticmethod
@@ -88,29 +62,57 @@ class Idle:
     def draw(boy):
         boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
 
-
-class Sleep:
+class AutoRun:
 
     @staticmethod
     def enter(boy, e):
-        boy.frame = 0
+        boy.action = 2
+        boy.dir = 1
+        boy.speed = 10
+        boy.wait_time = get_time() + 5
 
     @staticmethod
     def exit(boy, e):
         pass
 
     @staticmethod
-    def do(boy, e):
+    def do(boy):
+        if boy.x < 0 or boy.x > 800 :
+            boy.dir = -boy.dir
+
+        if get_time() == boy.wait_time :
+            boy.state_machine.handle_event(('TIME_OUT', 0))
+
+    @staticmethod
+    def draw(boy):
+        boy.image.clip_draw(boy.frame * 100, boy.action * 100, 100, 100, boy.x, boy.y)
+
+
+
+
+
+class Sleep:
+
+    @staticmethod
+    def enter(boy, e):
+        boy.action = 0
+
+    @staticmethod
+    def exit(boy, e):
+        pass
+
+    @staticmethod
+    def do(boy):
         boy.frame = (boy.frame + 1) % 8
 
     @staticmethod
     def draw(boy):
         if boy.action == 2:
             boy.image.clip_composite_draw(boy.frame * 100, 200, 100, 100,
-                                          math.pi / 2, '', boy.x - 25, boy.y - 25, 100, 100)
+                                          -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
         else:
             boy.image.clip_composite_draw(boy.frame * 100, 300, 100, 100,
-                                          math.pi / 2, '', boy.x - 25, boy.y - 25, 100, 100)
+                                          3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
 
 
 class Run:
@@ -169,6 +171,7 @@ class Boy:
         self.x, self.y = 400, 90
         self.frame = 0
         self.action = 3
+        self.dir = 0
         self.image = load_image('animation_sheet.png')
         self.state_machine = StateMachine(self)
         self.state_machine.start()
